@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import logo from "./../assets/images/logo.png";
 import { useState } from "react";
 
@@ -6,6 +6,7 @@ const Navbar = () => {
   const [searchBoxVisibility, setSearchBoxVisibility] = useState(false);
 
   return (
+    <>
     <nav className="z-10 sticky top-0 flex items-center gap-12 w-full px-[5vw] py-5 h-[80px] border-b border-grey bg-white">
       <Link to="/" className="flex-none w-10">
         <img src={logo} className="w-full" />
@@ -49,6 +50,8 @@ const Navbar = () => {
         </Link>
       </div>
     </nav>
+    <Outlet/>
+    </>
   );
 };
 
