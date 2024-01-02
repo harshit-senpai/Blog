@@ -41,11 +41,11 @@ const Navbar = () => {
             <p>Write</p>
         </Link>
 
-        <Link to='/signIn' className="whitespace-nowrap bg-black text-white rounded-full px-6 text-xl capitalize hover:bg-opacity-80 py-2">
+        <Link to='/signin' className="whitespace-nowrap bg-black text-white rounded-full px-6 text-xl capitalize hover:bg-opacity-80 py-2">
             Sign In
         </Link>
 
-        <Link to='/signUp' className="btn-light py-2 hidden md:block" >
+        <Link to='/signup' className="btn-light py-2 hidden md:block" >
             Sign Up
         </Link>
       </div>
