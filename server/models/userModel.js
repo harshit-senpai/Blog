@@ -1,4 +1,6 @@
 import mongoose, { Schema } from "mongoose";
+import validator from "validator";
+import bcrypt from "bcrypt";
 
 let profile_imgs_name_list = [
   "Garfield",
@@ -38,11 +40,15 @@ const userSchema = mongoose.Schema(
     },
     email: {
       type: String,
-      required: true,
+      required: [true, "Please provide an email"],
       lowercase: true,
-      unique: true,
+      unique: [true, "Email already exists"],
+      validate: [validator.isEmail, "Please provide a valid email"],
     },
-    password: String,
+    password: {
+      type: String,
+      select: false,
+    },
     username: {
       type: String,
       minlength: [3, "Username must be 3 letters long"],
@@ -116,4 +122,19 @@ const userSchema = mongoose.Schema(
   }
 );
 
-export default mongoose.model("users", userSchema);
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+
+  this.password = await bcrypt.hash(this.password, 12);
+
+  next();
+});
+
+userSchema.methods.correctPassword = async function (
+  candidatePassword,
+  userPassword
+) {
+  return await bcrypt.compare(candidatePassword, userPassword);
+};
+
+export default mongoose.model("User", userSchema);
