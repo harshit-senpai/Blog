@@ -127,7 +127,7 @@ const UserAuthForm = ({ type }) => {
           )}
         </form>
       </div>
-      <Toaster />
+      <Toaster position="bottom-center" reverseOrder={false} />
     </AnimationWrapper>
   );
 };
