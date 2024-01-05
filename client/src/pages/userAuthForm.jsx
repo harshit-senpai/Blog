@@ -1,19 +1,27 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import InputBox from "../components/input.component";
 import googleIcon from "./../assets/images/googleIcon.png";
 import AnimationWrapper from "../utils/page-animation";
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import axios from "axios";
+import { sotreInSession } from "../utils/session";
+import { userContext } from "../App";
 
 const UserAuthForm = ({ type }) => {
-  const authForm = useRef();
+  let {
+    userAuth: { token },
+    setUserAuth,
+  } = useContext(userContext);
+
+  console.log(token);
 
   const userAuthThroughServer = (serverRoute, formData) => {
     axios
       .post("http://localhost:4000/api/users" + serverRoute, formData)
       .then(({ data }) => {
-        console.log(data);
+        sotreInSession("user", JSON.stringify(data));
+        setUserAuth(data);
       })
       .catch(({ response }) => {
         toast.error(response.data.error);
@@ -24,12 +32,12 @@ const UserAuthForm = ({ type }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    let serverRoute = type === "sign-in" ? "/signin" : "/signup";
+    let serverRoute = type === "Sign-In" ? "/signin" : "/signup";
 
     let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
 
-    let form = new FormData(authForm.current);
+    let form = new FormData(formElement);
     let formData = {};
 
     for (let [key, value] of form.entries()) {
@@ -58,10 +66,12 @@ const UserAuthForm = ({ type }) => {
     userAuthThroughServer(serverRoute, formData);
   };
 
-  return (
+  return token ? (
+    <Navigate to="/" />
+  ) : (
     <AnimationWrapper KeyValue={type}>
       <div className="py-4 px-[5vw] md:px-[7vw] lg:px-[10vw] min-h-[calc(100vh-80px)] flex items-center justify-center">
-        <form ref={authForm} className="w-[80%] max-w-[400px]">
+        <form id="formElement" className="w-[80%] max-w-[400px]">
           <h1 className="text-4xl font-gelasio capitalize text-center mb-24">
             {type === "signin" ? "Welcome back" : "join us today"}
           </h1>
@@ -127,7 +137,7 @@ const UserAuthForm = ({ type }) => {
           )}
         </form>
       </div>
-      <Toaster position="bottom-center" reverseOrder={false} />
+      <Toaster />
     </AnimationWrapper>
   );
 };
