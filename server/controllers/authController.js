@@ -5,6 +5,10 @@ import User from "../models/userModel.js";
 
 let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
 
+const profileImage = (user) => {
+
+}
+
 const generateUSername = async (email) => {
   let username = email.split("@")[0];
 

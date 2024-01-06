@@ -14,8 +14,6 @@ const UserAuthForm = ({ type }) => {
     setUserAuth,
   } = useContext(userContext);
 
-  console.log(token);
-
   const userAuthThroughServer = (serverRoute, formData) => {
     axios
       .post("http://localhost:4000/api/users" + serverRoute, formData)

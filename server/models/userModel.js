@@ -2,32 +2,30 @@ import mongoose, { Schema } from "mongoose";
 import validator from "validator";
 import bcrypt from "bcrypt";
 
-let profile_imgs_name_list = [
-  "Garfield",
-  "Tinkerbell",
-  "Annie",
-  "Loki",
-  "Cleo",
-  "Angel",
-  "Bob",
-  "Mia",
-  "Coco",
-  "Gracie",
+const profile_imgs_name_list = [
+  "Snuggles",
   "Bear",
-  "Bella",
-  "Abby",
-  "Harley",
-  "Cali",
-  "Leo",
-  "Luna",
+  "Scooter",
+  "Milo",
+  "Oreo",
+  "Nala",
   "Jack",
-  "Felix",
-  "Kiki",
+  "Jasmine",
+  "Bailey",
+  "Max",
+  "Cuddles",
+  "Sassy",
+  "Zoey",
+  "Missy",
+  "Boo",
+  "Gizmo",
+  "Kitty",
+  "Cali",
+  "Smokey",
+  "Baby",
 ];
 let profile_imgs_collections_list = [
-  "notionists-neutral",
-  "adventurer-neutral",
-  "fun-emoji",
+  "adventurer-neutral"
 ];
 
 const userSchema = mongoose.Schema(
@@ -59,20 +57,7 @@ const userSchema = mongoose.Schema(
       maxlength: [200, "Bio should not be more than 200"],
       default: "",
     },
-    profile_img: {
-      type: String,
-      default: () => {
-        return `https://api.dicebear.com/6.x/${
-          profile_imgs_collections_list[
-            Math.floor(Math.random() * profile_imgs_collections_list.length)
-          ]
-        }/svg?seed=${
-          profile_imgs_name_list[
-            Math.floor(Math.random() * profile_imgs_name_list.length)
-          ]
-        }`;
-      },
-    },
+    profile_img: String,
     youtube: {
       type: String,
       default: "",
